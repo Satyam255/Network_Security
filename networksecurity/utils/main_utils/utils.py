@@ -30,4 +30,36 @@ def write_yaml_file(file_path: str, content: object, replace: bool = False) -> N
             yaml.dump(content, file)
     except Exception as e:
         raise NetworkSecurityException(e, sys)
+
+def save_numpy_array_data(file_path: str, array: np.array):
+    """
+    Saves a numpy array to a file.
     
+    :param file_path: Path to the file where the array will be saved.
+    :param array: Numpy array to save.
+    :raises NetworkSecurityException: If there is an error saving the file.
+    """
+    try:
+        dir_path = os.path.dirname(file_path)
+        os.makedirs(dir_path, exist_ok=True)
+        with open(file_path, 'wb') as file_obj:
+            np.save(file_obj, array)
+    except Exception as e:
+        raise NetworkSecurityException(e, sys)
+    
+def save_object(file_path: str, obj: object) -> None:
+    """
+    Saves an object to a file using dill.
+    
+    :param file_path: Path to the file where the object will be saved.
+    :param obj: Object to save.
+    :raises NetworkSecurityException: If there is an error saving the file.
+    """
+    try:
+        logging.info(f"Entered the save_object method of Main utils class")
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+        with open(file_path, 'wb') as file_obj:
+            pickle.dump(obj, file_obj)
+        logging.info(f"Exited the save_object method of Main utils class")
+    except Exception as e:
+        raise NetworkSecurityException(e, sys)
